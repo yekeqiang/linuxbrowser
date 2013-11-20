@@ -7,7 +7,7 @@ import (
 	"github.com/astaxie/beego"
 	//	"os"
 	//	"path/filepath"
-	"net/url"
+//	"net/url"
 	"strconv"
 	"strings"
 
@@ -30,17 +30,6 @@ type fileType struct {
 func (this *IndexController) Get() {
 
 	RequestURI := this.Ctx.Request.RequestURI
-	URL, err := url.ParseQuery(RequestURI)
-	if err == nil {
-		//urldecode
-		for url, _ := range URL {
-			RequestURI = url
-			break
-		}
-	} else {
-		this.Ctx.WriteString("404")
-		return
-	}
 
 	DS := "/"
 	//--------------------路径导航--------------------//
