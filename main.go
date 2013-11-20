@@ -3,7 +3,7 @@ package main
 import (
 	//	"fmt"
 	"github.com/astaxie/beego"
-	"linuxbrowser/controllers"
+	"github.com/fhbzyc/linuxbrowser/controllers"
 )
 
 func main() {
