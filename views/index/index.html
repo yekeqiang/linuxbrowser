@@ -1,0 +1,84 @@
+{{template "index/header.html" .}}
+{{$requestURL := .RequestURI}}
+	<div class="container">
+
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th width="400">dirName</th>
+            <th>mode</th>
+            <th>user</th>
+            <th>size(M)</th>
+            <th>time</th>
+            <th>action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="">
+            <td style="color:#5555ff;"><a href="{{.parentPath}}">..</a></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+         
+          {{range $key, $value := .dirs}}
+          <tr class="">
+            <td style="color:#5555ff;"><a href="{{$requestURL}}{{$value.Fname}}">{{$value.Fname}}</a></td>
+            
+            <td>{{$value.Fmode}}</td>
+            <td>{{$value.Funame}}:{{$value.Fgname}}</td>
+            <td>{{$value.Fsize}}</td>
+            <td>{{$value.Ftime}}</td>
+            <td><a>delete</a></td>
+          </tr>
+          {{end}}
+        </tbody>
+        <thead>
+          <tr>
+            <th width="400">fileName</th>
+            <th>mode</th>
+            <th>user</th>
+            <th>size(M)</th>
+            <th>time</th>
+            <th>action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{range $key, $value := .files}}
+          <tr class="">
+            <td style="">{{$value.Fname}}</td>
+            <td>{{$value.Fmode}}</td>
+            <td>{{$value.Funame}}:{{$value.Fgname}}</td>
+            <td>{{$value.Fsize}}</td>
+            <td>{{$value.Ftime}}</td>
+            <td><a href="/operation?action=edit&file={{$requestURL}}{{$value.Fname}}" >edit</a>&nbsp;&nbsp;&nbsp;<a href="" onclick="deleteFile('{{$value.Fname}}');return false;">delete</a></td>
+          </tr>
+          {{end}}
+        </tbody>
+      </table>
+  </div>
+<script>
+function deleteFile(filename)
+{
+    if (confirm("Are you sure delete " + filename + " ? ")) {  
+        $.ajax({
+            url: "/operation",
+            type: "get",
+//            contentType: "text/html; charset=utf-8",
+            dataType: "json",
+            data: {action:"delete", file: "{{$requestURL}}" + filename},
+            success: function(json){
+              if(json[0] == '0') {
+                  window.location.href = location.href
+              } else {
+                  alert(json[1]);
+              }
+            }
+        });
+    }
+    return ;
+}
+</script>
+{{template "index/footer.html"}}
