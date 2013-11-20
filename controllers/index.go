@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"linuxbrowser/libs/dir"
-	"linuxbrowser/libs/linux"
+	"github.com/fhbzyc/linuxbrowser/libs/dir"
+	"github.com/fhbzyc/linuxbrowser/libs/linux"
 	//	"fmt"
 	"github.com/astaxie/beego"
 	//	"os"
