@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"fmt"
+	//	"fmt"
 	"github.com/astaxie/beego"
 	"os"
 	//	"path/filepath"
@@ -38,8 +38,6 @@ func (this *OperationController) Get() {
 func (this *OperationController) deleteFile() {
 
 	removeFile := this.GetString("file")
-
-	fmt.Println(removeFile)
 
 	if removeFile != "" {
 		err := os.Remove(removeFile)

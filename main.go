@@ -2,8 +2,8 @@ package main
 
 import (
 	//	"fmt"
-	"browser/controllers"
 	"github.com/astaxie/beego"
+	"linuxbrowser/controllers"
 )
 
 func main() {
