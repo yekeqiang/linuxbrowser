@@ -29,7 +29,12 @@ type fileType struct {
  
 func (this *IndexController) Get() {
  
-    RequestURI, dirs, files, _ := browser(this.Ctx.Request.RequestURI)
+    RequestURI, dirs, files, err := browser(this.Ctx.Request.RequestURI)
+    
+    if err != nil {
+        this.Ctx.WriteString("404")
+        return
+    }
  
     this.Data["RequestURI"] = RequestURI
     this.Data["parentPath"] = lastDir(RequestURI)
