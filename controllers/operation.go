@@ -8,6 +8,7 @@ import (
 	"strings"
 	//	"math"
 	//	"runtime
+	"github.com/astaxie/beego/middleware"
 	"strconv"
 )
 
@@ -26,7 +27,7 @@ func (this *OperationController) Get() {
 
 		RequestURI, dirs, files, err := browser(this.Ctx.Request.RequestURI)
 		if err != nil {
-			this.Ctx.WriteString("404")
+			middleware.Exception("404", this.Ctx.ResponseWriter, this.Ctx.Request, "")
 			return
 		}
 
@@ -65,7 +66,11 @@ func (this *OperationController) read() {
 		f, err := os.OpenFile(file, os.O_RDWR, 0444)
 
 		if err != nil {
-			this.jsonEncode(68, err.Error())
+			if os.IsPermission(err) {
+				middleware.Exception("403", this.Ctx.ResponseWriter, this.Ctx.Request, err.Error())
+			} else {
+				this.jsonEncode(68, err.Error())
+			}
 		} else {
 
 			info, _ := f.Stat()
