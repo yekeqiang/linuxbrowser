@@ -6,7 +6,7 @@ import (
 	//  "fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/middleware"
-	//  "os"
+	"os"
 	//  "path/filepath"
 	"net/url"
 	"strconv"
@@ -33,7 +33,11 @@ func (this *IndexController) Get() {
 	RequestURI, dirs, files, err := browser(this.Ctx.Request.RequestURI)
 
 	if err != nil {
-		middleware.Exception("404", this.Ctx.ResponseWriter, this.Ctx.Request, "")
+		if os.IsPermission(err) {
+			middleware.Exception("403", this.Ctx.ResponseWriter, this.Ctx.Request, err.Error())
+		} else {
+			middleware.Exception("404", this.Ctx.ResponseWriter, this.Ctx.Request, "")
+		}
 		return
 	}
 
