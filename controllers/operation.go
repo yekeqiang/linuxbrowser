@@ -69,7 +69,7 @@ func (this *OperationController) read() {
 			if os.IsPermission(err) {
 				middleware.Exception("403", this.Ctx.ResponseWriter, this.Ctx.Request, err.Error())
 			} else {
-				this.jsonEncode(68, err.Error())
+				middleware.Exception("404", this.Ctx.ResponseWriter, this.Ctx.Request, "")
 			}
 		} else {
 
