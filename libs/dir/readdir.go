@@ -31,7 +31,7 @@ func ReadDir(path string) (ret []SysFile, err error) {
 		} else {
 			ftype := 1
 		}
-		 array = append(array, SysFile{Ftype: ftype, Fname: f.Name(), Fsize: f.Size(), Fmode: f.Mode(), Ftime: f.ModTime(), Fsys: f.Sys().(*syscall.Stat_t)})
+		array = append(array, SysFile{Ftype: ftype, Fname: f.Name(), Fsize: f.Size(), Fmode: f.Mode(), Ftime: f.ModTime(), Fsys: f.Sys().(*syscall.Stat_t)})
 	}
 
 	return array, nil
