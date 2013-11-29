@@ -71,12 +71,12 @@ func browser(urlQuery string) (RequestURI string, dirs []fileType, files []fileT
     if err1 != nil {
         newUrl, err2 := url.QueryUnescape(urlQuery)
         if err2 != nil {
-            err.Error()
+            err = err2
             return
         } else {
             filesArray, err2 = dir.ReadDir(newUrl)
             if err2 != nil {
-                    err.Error()
+                err = err2
                 return
             } else {
                 RequestURI = newUrl
