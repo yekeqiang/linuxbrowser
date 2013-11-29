@@ -34,7 +34,9 @@
             <td>{{$value.Funame}}:{{$value.Fgname}}</td>
             <td>{{$value.Fsize}}</td>
             <td>{{$value.Ftime}}</td>
-            <td><a>delete</a></td>
+            <td>
+              <a href="" onclick="dirRemove('{{$value.Fname}}');return false;">delete</a>
+            </td>
           </tr>
           {{end}}
         </tbody>
@@ -59,7 +61,7 @@
             <td>
               <a href="/operation?action=read&file={{$requestURL}}{{$value.Fname}}" >read</a>
               <a href="" onclick="rename('{{$value.Fname}}');return false;">rename</a>
-              <a href="" onclick="deleteFile('{{$value.Fname}}');return false;">delete</a>
+              <a href="" onclick="fileRemove('{{$value.Fname}}');return false;">delete</a>
               </td>
           </tr>
           {{end}}
@@ -71,13 +73,10 @@ function mkdir() {
 
     var dirname = prompt("Enter dirname ", "");//将输入的内容赋给变量 name ，
 
-    //这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值
-
     if(dirname) {
         $.ajax({
             url: "/operation",
             type: "get",
-//            contentType: "text/html; charset=utf-8",
             dataType: "json",
             data: {action:"mkdir", dirname: "{{$requestURL}}" + dirname},
             success: function(json){
@@ -97,13 +96,10 @@ function createFile() {
 
     var filename = prompt("Enter filename ", "");//将输入的内容赋给变量 name ，
 
-    //这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值
-
     if(filename) {
         $.ajax({
             url: "/operation",
             type: "get",
-//            contentType: "text/html; charset=utf-8",
             dataType: "json",
             data: {action:"create", filename: "{{$requestURL}}" + filename},
             success: function(json){
@@ -123,13 +119,10 @@ function rename(filename) {
 
     var newname = prompt("Enter newname ", "");//将输入的内容赋给变量 name ，
 
-    //这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值
-
     if(newname) {
         $.ajax({
             url: "/operation",
             type: "get",
-//            contentType: "text/html; charset=utf-8",
             dataType: "json",
             data: {action:"rename", oldname: "{{$requestURL}}" + filename,  newname: "{{$requestURL}}" + newname},
             success: function(json){
@@ -145,14 +138,13 @@ function rename(filename) {
     return ;
 }
 
-function deleteFile(filename) {
-    if (confirm("Are you sure delete " + filename + " ? ")) {  
+function fileRemove(filename) {
+    if (confirm("Are you sure delete '" + filename + "' ? ")) {  
         $.ajax({
             url: "/operation",
             type: "get",
-//            contentType: "text/html; charset=utf-8",
             dataType: "json",
-            data: {action:"delete", file: "{{$requestURL}}" + filename},
+            data: {action:"remove", filename: "{{$requestURL}}" + filename},
             success: function(json){
               if(json[0] == '0') {
                   window.location.href = location.href
@@ -164,5 +156,25 @@ function deleteFile(filename) {
     }
     return ;
 }
+
+function dirRemove(filename) {
+    if (confirm("Are you sure delete '" + filename + "' ? Warning ! This is a directory ")) {  
+        $.ajax({
+            url: "/operation",
+            type: "get",
+            dataType: "json",
+            data: {action:"remove", filename: "{{$requestURL}}" + filename},
+            success: function(json){
+              if(json[0] == '0') {
+                  window.location.href = location.href
+              } else {
+                  alert(json[1]);
+              }
+            }
+        });
+    }
+    return ;
+}
+
 </script>
 {{template "index/footer.html"}}
