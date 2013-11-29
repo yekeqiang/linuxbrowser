@@ -3,6 +3,7 @@ package dir
 import (
 	//	"fmt"
 	"os"
+	"strings"
 	"syscall"
 	"time"
 )
@@ -24,12 +25,20 @@ func ReadDir(path string) (ret []SysFile, err error) {
 	}
 
 	files, _ := dir.Readdir(0)
-
+	var ftype int
 	for _, f := range files {
-                var ftype int
-		if !f.IsDir() {
-                    ftype = 1
+
+		if f.IsDir() {
+			ftype = 0
+		} else {
+			ftype = 1
 		}
+
+		if strings.HasPrefix(f.Mode().String(), "L") || strings.HasPrefix(f.Mode().String(), "l") {
+			//链接类型文件
+			ftype = 2
+		}
+
 		array = append(array, SysFile{Ftype: ftype, Fname: f.Name(), Fsize: f.Size(), Fmode: f.Mode(), Ftime: f.ModTime(), Fsys: f.Sys().(*syscall.Stat_t)})
 	}
 
