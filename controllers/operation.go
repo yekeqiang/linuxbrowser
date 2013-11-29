@@ -7,7 +7,7 @@ import (
 	//	"path/filepath"
 	"strings"
 	//	"math"
-//	"strconv"
+	//	"strconv"
 )
 
 type OperationController struct {
@@ -20,7 +20,19 @@ func (this *OperationController) Get() {
 	action = strings.Trim(action, " ")
 
 	if action == "" {
-		this.jsonEncode("26", "")
+
+		RequestURI, dirs, files, err := browser(this.Ctx.Request.RequestURI)
+		if err != nil {
+			this.Ctx.WriteString("404")
+			return
+		}
+
+		this.Data["RequestURI"] = RequestURI
+		this.Data["parentPath"] = lastDir(RequestURI)
+		this.Data["dirs"] = dirs
+		this.Data["files"] = files
+		this.TplNames = "index/index.html"
+
 		return
 	}
 
