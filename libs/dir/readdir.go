@@ -27,10 +27,11 @@ func ReadDir(path string) (ret []SysFile, err error) {
 
 	for _, f := range files {
 		if f.IsDir() {
-			array = append(array, SysFile{Ftype: 0, Fname: f.Name(), Fsize: f.Size(), Fmode: f.Mode(), Ftime: f.ModTime(), Fsys: f.Sys().(*syscall.Stat_t)})
+			ftype := 0
 		} else {
-			array = append(array, SysFile{Ftype: 1, Fname: f.Name(), Fsize: f.Size(), Fmode: f.Mode(), Ftime: f.ModTime(), Fsys: f.Sys().(*syscall.Stat_t)})
+			ftype := 1
 		}
+		 array = append(array, SysFile{Ftype: ftype, Fname: f.Name(), Fsize: f.Size(), Fmode: f.Mode(), Ftime: f.ModTime(), Fsys: f.Sys().(*syscall.Stat_t)})
 	}
 
 	return array, nil
