@@ -102,7 +102,7 @@ func browser(urlQuery string) (RequestURI string, dirs []fileType, files []fileT
 
 		if val.Ftype == 0 {
 			dirs = append(dirs, fileType{SysFile: val, Fsize: "", Ftime: time, Fgname: fgname, Funame: funame})
-		} else {
+		} else if val.Ftype == 1 {
 			files = append(files, fileType{SysFile: val, Fsize: strconv.FormatFloat(float64(val.Fsize)/(1024*1024), 'f', 8, 64), Ftime: time, Fgname: fgname, Funame: funame})
 		}
 	}
