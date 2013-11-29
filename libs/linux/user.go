@@ -40,6 +40,9 @@ func init() {
 			if err != nil {
 				break
 			} else {
+				if strings.HasPrefix(line, "#") {
+					continue
+				}
 				array := strings.Split(line, ":")
 				uid, _ := strconv.Atoi(array[2])
 				user := User{uid: uid, uname: array[0]}
@@ -65,6 +68,9 @@ func init() {
 			if err != nil {
 				break
 			} else {
+				if strings.HasPrefix(line, "#") {
+					continue
+				}
 				array := strings.Split(line, ":")
 				gid, _ := strconv.Atoi(array[2])
 				group = append(group, Group{gid: gid, gname: array[0]})
