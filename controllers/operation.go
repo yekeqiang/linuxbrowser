@@ -36,14 +36,16 @@ func (this *OperationController) Get() {
 		this.Data["files"] = files
 		this.TplNames = "index/index.html"
 
-	case "edit":
-		this.edit()
+	case "read":
+		this.read()
 	case "copy":
 		this.copy()
 	case "move":
 		this.move()
 	case "mkdir":
 		this.mkdir()
+	case "rename":
+		this.rename()
 	case "create":
 		this.create()
 	case "delete":
@@ -54,21 +56,31 @@ func (this *OperationController) Get() {
 
 }
 
-func (this *OperationController) delete() {
+func (this *OperationController) read() {
 
-	removeFile := this.GetString("file")
+	file := this.GetString("file")
 
-	if removeFile != "" {
-		err := os.Remove(removeFile)
+	if file != "" {
+
+		f, err := os.OpenFile(file, os.O_RDWR, 0666)
+
 		if err != nil {
-			this.jsonEncode(62, "")
+			this.jsonEncode(33, "")
 		} else {
-			this.jsonEncode(0, "")
+
+			info, _ := f.Stat()
+			buf := make([]byte, info.Size())
+			f.Read(buf)
+			this.Data["value"] = string(buf)
+			this.TplNames = "operation/edit.html"
+
 		}
+		return
 
 	} else {
 		this.jsonEncode(39, "")
 	}
+	return
 }
 
 func (this *OperationController) copy() {
@@ -78,28 +90,31 @@ func (this *OperationController) copy() {
 
 func (this *OperationController) move() {
 
-	return
-}
+	file := this.GetString("file")
+	newname := this.GetString("newname")
 
-func (this *OperationController) create() {
+	err := os.Rename(file, newname)
 
-	createFile := this.GetString("file")
-
-	f, err := os.Open(createFile)
-
-	defer f.Close()
-
-	if err != nil && os.IsNotExist(err) {
-
-		if createFile != "" {
-			_, err2 := os.Create(createFile)
-			if err2 == nil {
-				this.jsonEncode(0, "")
-			}
-		}
+	if err != nil {
+		this.jsonEncode(89, "")
 	}
 
-	this.jsonEncode(89, "")
+	this.jsonEncode(0, "")
+
+	return
+}
+func (this *OperationController) rename() {
+
+	file := this.GetString("file")
+	newname := this.GetString("newname")
+
+	err := os.Rename(file, newname)
+
+	if err != nil {
+		this.jsonEncode(89, "")
+	}
+
+	this.jsonEncode(0, "")
 
 	return
 }
@@ -127,31 +142,44 @@ func (this *OperationController) mkdir() {
 	return
 }
 
-func (this *OperationController) edit() {
+func (this *OperationController) create() {
 
-	editFile := this.GetString("file")
+	createFile := this.GetString("file")
 
-	if editFile != "" {
+	f, err := os.Open(createFile)
 
-		f, err := os.OpenFile(editFile, os.O_RDWR, 0666)
+	defer f.Close()
 
-		if err != nil {
-			this.jsonEncode(33, "")
-		} else {
+	if err != nil && os.IsNotExist(err) {
 
-			info, _ := f.Stat()
-			buf := make([]byte, info.Size())
-			f.Read(buf)
-			this.Data["value"] = string(buf)
-			this.TplNames = "operation/edit.html"
-
+		if createFile != "" {
+			_, err2 := os.Create(createFile)
+			if err2 == nil {
+				this.jsonEncode(0, "")
+			}
 		}
-		return
+	}
+
+	this.jsonEncode(89, "")
+
+	return
+}
+
+func (this *OperationController) delete() {
+
+	removeFile := this.GetString("file")
+
+	if removeFile != "" {
+		err := os.Remove(removeFile)
+		if err != nil {
+			this.jsonEncode(62, "")
+		} else {
+			this.jsonEncode(0, "")
+		}
 
 	} else {
 		this.jsonEncode(39, "")
 	}
-	return
 }
 
 func (this *OperationController) jsonEncode(code int, message string) {
