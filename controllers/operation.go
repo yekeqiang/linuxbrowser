@@ -48,8 +48,8 @@ func (this *OperationController) Get() {
 		this.rename()
 	case "create":
 		this.create()
-	case "delete":
-		this.delete()
+	case "remove":
+		this.remove()
 	}
 
 	return
@@ -62,10 +62,10 @@ func (this *OperationController) read() {
 
 	if file != "" {
 
-		f, err := os.OpenFile(file, os.O_RDWR, 0666)
+		f, err := os.OpenFile(file, os.O_RDWR, 0444)
 
 		if err != nil {
-			this.jsonEncode(33, "")
+			this.jsonEncode(68, err.Error())
 		} else {
 
 			info, _ := f.Stat()
@@ -78,7 +78,7 @@ func (this *OperationController) read() {
 		return
 
 	} else {
-		this.jsonEncode(39, "")
+		this.jsonEncode(81, "")
 	}
 	return
 }
@@ -111,7 +111,7 @@ func (this *OperationController) rename() {
 	err := os.Rename(oldname, newname)
 
 	if err != nil {
-		this.jsonEncode(89, err.Error())
+		this.jsonEncode(114, err.Error())
 	}
 
 	this.jsonEncode(0, "")
@@ -162,20 +162,31 @@ func (this *OperationController) create() {
 	return
 }
 
-func (this *OperationController) delete() {
+func (this *OperationController) remove() {
 
-	removeFile := this.GetString("file")
+	path := this.GetString("filename")
 
-	if removeFile != "" {
-		err := os.Remove(removeFile)
+	if path != "" {
+		f, err := os.Open(path)
 		if err != nil {
-			this.jsonEncode(62, "")
+			this.jsonEncode(89, err.Error())
+			return
+		}
+
+		_, err2 := f.Readdir(0)
+		var err3 error
+		if err2 == nil {
+			err3 = os.RemoveAll(path)
+		} else {
+			err3 = os.Remove(path)
+		}
+
+		if err != nil {
+			this.jsonEncode(185, err3.Error())
 		} else {
 			this.jsonEncode(0, "")
 		}
-
-	} else {
-		this.jsonEncode(39, "")
+		return
 	}
 }
 
