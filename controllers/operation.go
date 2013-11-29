@@ -7,7 +7,7 @@ import (
 	//	"path/filepath"
 	"strings"
 	//	"math"
-	//	"runtime"
+	//	"runtime
 	"strconv"
 )
 
@@ -105,13 +105,13 @@ func (this *OperationController) move() {
 }
 func (this *OperationController) rename() {
 
-	file := this.GetString("file")
+	oldname := this.GetString("oldname")
 	newname := this.GetString("newname")
 
-	err := os.Rename(file, newname)
+	err := os.Rename(oldname, newname)
 
 	if err != nil {
-		this.jsonEncode(89, "")
+		this.jsonEncode(89, err.Error())
 	}
 
 	this.jsonEncode(0, "")
@@ -121,46 +121,43 @@ func (this *OperationController) rename() {
 
 func (this *OperationController) mkdir() {
 
-	dir := this.GetString("dir")
+	dirname := this.GetString("dirname")
 
-	f, err := os.Open(dir)
-
-	defer f.Close()
-
-	if err != nil && os.IsNotExist(err) {
-
-		if dir != "" {
-			err2 := os.Mkdir(dir, 0664)
-			if err2 == nil {
-				this.jsonEncode(0, "")
-			}
+	if dirname != "" {
+		err := os.Mkdir(dirname, 0664)
+		if err == nil {
+			this.jsonEncode(0, "")
+		} else {
+			this.jsonEncode(89, err.Error())
 		}
+		return
 	}
 
-	this.jsonEncode(89, "")
+	this.jsonEncode(89, "create dir fail ! ")
 
 	return
 }
 
 func (this *OperationController) create() {
 
-	createFile := this.GetString("file")
+	filename := this.GetString("filename")
 
-	f, err := os.Open(createFile)
+	f, err := os.Open(filename)
+	if err == nil {
+		f.Close()
+		this.jsonEncode(33, filename+" file exists")
+	} else if os.IsNotExist(err) {
 
-	defer f.Close()
-
-	if err != nil && os.IsNotExist(err) {
-
-		if createFile != "" {
-			_, err2 := os.Create(createFile)
-			if err2 == nil {
-				this.jsonEncode(0, "")
-			}
+		_, err2 := os.Create(filename)
+		if err2 == nil {
+			this.jsonEncode(0, "")
+		} else {
+			this.jsonEncode(89, err2.Error())
 		}
+		return
 	}
 
-	this.jsonEncode(89, "")
+	this.jsonEncode(89, "create file fail ! ")
 
 	return
 }
