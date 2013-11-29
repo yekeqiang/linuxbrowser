@@ -26,10 +26,9 @@ func ReadDir(path string) (ret []SysFile, err error) {
 	files, _ := dir.Readdir(0)
 
 	for _, f := range files {
-		if f.IsDir() {
-			ftype := 0
-		} else {
-			ftype := 1
+                var ftype int
+		if !f.IsDir() {
+                    ftype := 1
 		}
 		array = append(array, SysFile{Ftype: ftype, Fname: f.Name(), Fsize: f.Size(), Fmode: f.Mode(), Ftime: f.ModTime(), Fsys: f.Sys().(*syscall.Stat_t)})
 	}
