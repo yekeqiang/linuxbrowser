@@ -7,7 +7,8 @@ import (
 	//	"path/filepath"
 	"strings"
 	//	"math"
-	//	"strconv"
+	//	"runtime"
+	"strconv"
 )
 
 type OperationController struct {
@@ -19,7 +20,9 @@ func (this *OperationController) Get() {
 	action := this.GetString("action")
 	action = strings.Trim(action, " ")
 
-	if action == "" {
+	switch action {
+
+	case "":
 
 		RequestURI, dirs, files, err := browser(this.Ctx.Request.RequestURI)
 		if err != nil {
@@ -33,38 +36,98 @@ func (this *OperationController) Get() {
 		this.Data["files"] = files
 		this.TplNames = "index/index.html"
 
-		return
+	case "edit":
+		this.edit()
+	case "copy":
+		this.copy()
+	case "move":
+		this.move()
+	case "mkdir":
+		this.mkdir()
+	case "create":
+		this.create()
+	case "delete":
+		this.delete()
 	}
 
-	if action == "delete" {
-		this.deleteFile()
-		return
-	}
+	return
 
-	if action == "edit" {
-		this.editFile()
-		return
-	}
 }
 
-func (this *OperationController) deleteFile() {
+func (this *OperationController) delete() {
 
 	removeFile := this.GetString("file")
 
 	if removeFile != "" {
 		err := os.Remove(removeFile)
 		if err != nil {
-			this.jsonEncode("33", "")
+			this.jsonEncode(62, "")
 		} else {
-			this.jsonEncode("0", "")
+			this.jsonEncode(0, "")
 		}
 
 	} else {
-		this.jsonEncode("39", "")
+		this.jsonEncode(39, "")
 	}
 }
 
-func (this *OperationController) editFile() {
+func (this *OperationController) copy() {
+
+	return
+}
+
+func (this *OperationController) move() {
+
+	return
+}
+
+func (this *OperationController) create() {
+
+	createFile := this.GetString("file")
+
+	f, err := os.Open(createFile)
+
+	defer f.Close()
+
+	if err != nil && os.IsNotExist(err) {
+
+		if createFile != "" {
+			_, err2 := os.Create(createFile)
+			if err2 == nil {
+				this.jsonEncode(0, "")
+			}
+		}
+	}
+
+	this.jsonEncode(89, "")
+
+	return
+}
+
+func (this *OperationController) mkdir() {
+
+	dir := this.GetString("dir")
+
+	f, err := os.Open(dir)
+
+	defer f.Close()
+
+	if err != nil && os.IsNotExist(err) {
+
+		if dir != "" {
+			err2 := os.Mkdir(dir, 0664)
+			if err2 == nil {
+				this.jsonEncode(0, "")
+			}
+		}
+	}
+
+	this.jsonEncode(89, "")
+
+	return
+}
+
+func (this *OperationController) edit() {
 
 	editFile := this.GetString("file")
 
@@ -73,7 +136,7 @@ func (this *OperationController) editFile() {
 		f, err := os.OpenFile(editFile, os.O_RDWR, 0666)
 
 		if err != nil {
-			this.jsonEncode("33", "")
+			this.jsonEncode(33, "")
 		} else {
 
 			info, _ := f.Stat()
@@ -86,14 +149,14 @@ func (this *OperationController) editFile() {
 		return
 
 	} else {
-		this.jsonEncode("39", "")
+		this.jsonEncode(39, "")
 	}
 	return
 }
 
-func (this *OperationController) jsonEncode(code string, message string) {
+func (this *OperationController) jsonEncode(code int, message string) {
 
-	json := []string{code, message}
+	json := []string{strconv.Itoa(code), message}
 
 	this.Data["json"] = &json
 	this.ServeJson()
