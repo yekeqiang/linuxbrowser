@@ -59,13 +59,8 @@
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            {{if .username}}
-            <li><a><span style="font-size:120%;color:blue;">welcome : {{.username}}</span></a></li>
-            <li><a href="" onclick="logout();return;" style="color:#428BCA">Sign out</a></li>
-            {{else}}
-            <li data-content="Please sign in" data-toggle="popover" data-placement="bottom" id="SingInPopover"><a data-toggle="modal" href="#signForm" style="color:#428BCA">Sign in</a></li>
-            <li><a data-toggle="modal" href="#registerForm" style="color:#428BCA">Sign up</a></li>
-            {{end}}
+            <li><a href="#" class="btn-lg" onclick="return false;"><span class="glyphicon glyphicon-log-in" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="signin"></span></a></li>
+            <li><a href="#" class="btn-lg" onclick="return false;"><span class="glyphicon glyphicon-registration-mark" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="signup"></span></a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -74,7 +69,7 @@
     <div class="container">
       <div class="page-header">
         <ol class="breadcrumb">
-          <li><a href="/" style="color:black;"><span class="glyphicon glyphicon-book"></span></a></li>
+            <li><a href="/" style="color:black;"><span class="glyphicon glyphicon-book"></span></a></li>
         </ol>
       </div>
     </div> <!-- /container -->
