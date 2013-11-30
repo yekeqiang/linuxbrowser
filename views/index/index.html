@@ -20,8 +20,8 @@
             <td></td>
             <td></td>
             <td>
-              <a href="" onclick="mkdir();return false;"><span class="glyphicon glyphicon-folder-open"></span></a>
-              <a href="" onclick="createFile();return false;"><span class="glyphicon glyphicon-file"></span></a>
+              <a href="" onclick="mkdir();return false;"><span class="glyphicon glyphicon-folder-open" data-toggle="tooltip" data-placement="top" title="" data-original-title="mkdir"></span></a>
+              <a href="" onclick="createFile();return false;"><span class="glyphicon glyphicon-file" data-toggle="tooltip" data-placement="top" title="" data-original-title="newfile"></span></a>
             </td>
           </tr>
          
@@ -35,8 +35,8 @@
             <td>{{$value.Ftime}}</td>
             <td>
               
-              <a href="" style="color:red;" onclick="rename('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-tag"></span></a>
-              <a href="" style="color:red;" onclick="dirRemove('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-trash"></span></a>
+              <a href="" style="color:red;" onclick="rename('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-tag" data-toggle="tooltip" data-placement="top" title="" data-original-title="rename"></span></a>
+              <a href="" style="color:red;" onclick="dirRemove('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="remove"></span></a>
 
             </td>
           </tr>
@@ -61,9 +61,9 @@
             <td>{{$value.Fsize}}</td>
             <td>{{$value.Ftime}}</td>
             <td>
-              <a href="/operation?action=read&file={{$.RequestURI}}{{$value.Fname}}" ><span class="glyphicon glyphicon-list-alt"></span></a>
-              <a href="" style="color:red;" onclick="rename('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-tag"></span></a>
-              <a href="" style="color:red;" onclick="dirRemove('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-trash"></span></a>
+              <a href="/operation?action=read&file={{$.RequestURI}}{{$value.Fname}}" ><span class="glyphicon glyphicon-list-alt" data-toggle="tooltip" data-placement="top" title="" data-original-title="read"></span></a>
+              <a href="" style="color:red;" onclick="rename('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-tag" data-toggle="tooltip" data-placement="top" title="" data-original-title="rename"></span></a>
+              <a href="" style="color:red;" onclick="fileRemove('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="remove"></span></a>
               </td>
           </tr>
           {{end}}
@@ -204,7 +204,9 @@ $(function(){
         str += "/" + strs[i];
         $(".breadcrumb").append("<li><a href=\"" + str + "/\">" + strs[i] + "</a></li>");
     }
+    $(".glyphicon").tooltip();
 });
 
 </script>
+
 {{template "index/footer.html"}}
