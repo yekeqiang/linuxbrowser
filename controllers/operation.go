@@ -172,24 +172,12 @@ func (this *OperationController) remove() {
 	path := this.GetString("filename")
 
 	if path != "" {
-		f, err := os.Open(path)
-		if err != nil {
-			this.jsonEncode(89, err.Error())
-			return
-		}
-
-		_, err2 := f.Readdir(0)
-		var err3 error
-		if err2 == nil {
-			err3 = os.RemoveAll(path)
-		} else {
-			err3 = os.Remove(path)
-		}
+		err := os.RemoveAll(path)
 
 		if err != nil {
-			this.jsonEncode(185, err3.Error())
+			this.jsonEncode(185, err.Error())
 		} else {
-			this.jsonEncode(0, "")
+			this.jsonEncode(0, "remove success")
 		}
 		return
 	}
