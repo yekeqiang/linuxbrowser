@@ -182,9 +182,12 @@ function back() {
       url = url.substr(0, url.length - 1);
     }
     strs = url.split("/");
-    strs[strs.length - 1] = "";
-    url = strs.join("/");
-    window.location.href = url;
+    if(strs.length > 3) {
+      strs[strs.length - 1] = "";
+      url = strs.join("/");
+      window.location.href = url;  
+    }
+    return;
 }
 
 </script>
