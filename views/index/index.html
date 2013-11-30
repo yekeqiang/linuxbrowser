@@ -1,5 +1,4 @@
 {{template "index/header.html" .}}
-{{$.RequestURI := .RequestURI}}
 
 	<div class="container">
       <table class="table table-hover">
@@ -15,7 +14,7 @@
         </thead>
         <tbody>
           <tr class="">
-            <td style="color:#5555ff;"><a href="{{.parentPath}}"><span class="glyphicon glyphicon-arrow-left"></span></a></td>
+            <td><a style="color:#5555ff;" href="" onclick="back();return false;"><span class="glyphicon glyphicon-backward"></span></a></td>
             <td></td>
             <td></td>
             <td></td>
@@ -28,7 +27,7 @@
          
           {{range $key, $value := .dirs}}
           <tr class="">
-            <td style="color:#5555ff;"><a href="{{$.RequestURI}}{{$value.Fname}}">{{$value.Fname}}</a></td>
+            <td style="color:#5555ff;"><a href="{{$.RequestURI}}{{$value.Fname}}/">{{$value.Fname}}</a></td>
             
             <td>{{$value.Fmode}}</td>
             <td>{{$value.Funame}}:{{$value.Fgname}}</td>
@@ -175,6 +174,17 @@ function dirRemove(filename) {
         });
     }
     return ;
+}
+
+function back() {
+    var url = window.location.href;
+    if(url.substr(url.length - 1, url.length) == "/") {
+      url = url.substr(0, url.length - 1);
+    }
+    strs = url.split("/");
+    strs[strs.length - 1] = "";
+    url = strs.join("/");
+    window.location.href = url;
 }
 
 </script>
