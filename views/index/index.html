@@ -1,10 +1,10 @@
 {{template "index/header.html" .}}
 
 	<div class="container">
-      <table class="table table-hover">
+      <table class="table table-hover table-condensed">
         <thead>
           <tr>
-            <th width="200">dirName</th>
+            <th width="250">dirName</th>
             <th>mode</th>
             <th>user</th>
             <th>size(M)</th>
@@ -27,7 +27,7 @@
          
           {{range $key, $value := .dirs}}
           <tr class="">
-            <td style="color:#5555ff;"><a href="{{$.RequestURI}}{{$value.Fname}}/">{{$value.Fname}}</a></td>
+            <td style="color:#5555ff;"><a href="{{$.RequestURI}}{{$value.Fname}}/"><span class="glyphicon glyphicon-folder-open"></span> {{$value.Fname}}</a></td>
             
             <td>{{$value.Fmode}}</td>
             <td>{{$value.Funame}}:{{$value.Fgname}}</td>
@@ -55,13 +55,12 @@
         <tbody>
           {{range $key, $value := .files}}
           <tr class="">
-            <td style="">{{$value.Fname}}</td>
+            <td style=""><a href="/operation?action=read&file={{$.RequestURI}}{{$value.Fname}}" ><span class="glyphicon glyphicon-file" data-toggle="tooltip" data-placement="top" title="" data-original-title="read"></span></a> {{$value.Fname}}</td>
             <td>{{$value.Fmode}}</td>
             <td>{{$value.Funame}}:{{$value.Fgname}}</td>
             <td>{{$value.Fsize}}</td>
             <td>{{$value.Ftime}}</td>
             <td>
-              <a href="/operation?action=read&file={{$.RequestURI}}{{$value.Fname}}" ><span class="glyphicon glyphicon-list-alt" data-toggle="tooltip" data-placement="top" title="" data-original-title="read"></span></a>
               <a href="" style="" onclick="rename('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-move" data-toggle="tooltip" data-placement="top" title="" data-original-title="rename"></span></a>
               <a href="" style="color:red;" onclick="fileRemove('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-floppy-remove" data-toggle="tooltip" data-placement="top" title="" data-original-title="remove"></span></a>
               </td>
