@@ -20,8 +20,8 @@
             <td></td>
             <td></td>
             <td>
-              <a href="" onclick="mkdir();return false;"><span class="glyphicon glyphicon-folder-open" data-toggle="tooltip" data-placement="top" title="" data-original-title="mkdir"></span></a>
-              <a href="" onclick="createFile();return false;"><span class="glyphicon glyphicon-file" data-toggle="tooltip" data-placement="top" title="" data-original-title="newfile"></span></a>
+              <a href="" onclick="mkdir();return false;"><span class="glyphicon glyphicon-folder-open" data-trigger="tooltip" data-content="mkdir" data-position="n"></span></a>
+              <a href="" onclick="createFile();return false;"><span class="glyphicon glyphicon-file" data-trigger="tooltip" data-content="newfile" data-position="ne"></span></a>
             </td>
           </tr>
          
@@ -34,9 +34,8 @@
             <td>{{$value.Fsize}}</td>
             <td>{{$value.Ftime}}</td>
             <td>
-              
-              <a href="" style="" onclick="rename('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-move" data-toggle="tooltip" data-placement="top" title="" data-original-title="rename"></span></a>
-              <a href="" style="color:red;" onclick="dirRemove('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-floppy-remove" data-toggle="tooltip" data-placement="top" title="" data-original-title="remove"></span></a>
+              <a href="" style="" onclick="rename('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-move" data-trigger="tooltip" data-position="n" data-content="rename"></span></a>
+              <a href="" style="color:red;" onclick="dirRemove('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-floppy-remove" data-trigger="tooltip" data-position="ne" data-content="remove"></span></a>
 
             </td>
           </tr>
@@ -55,14 +54,14 @@
         <tbody>
           {{range $key, $value := .files}}
           <tr class="">
-            <td style=""><a href="/operation?action=read&file={{$.RequestURI}}{{$value.Fname}}" ><span class="glyphicon glyphicon-file" data-toggle="tooltip" data-placement="top" title="" data-original-title="read"></span></a> {{$value.Fname}}</td>
+            <td style=""><a href="/operation?action=read&file={{$.RequestURI}}{{$value.Fname}}" ><span class="glyphicon glyphicon-file" data-trigger="tooltip" data-position="nw" data-content="read"></span></a> {{$value.Fname}}</td>
             <td>{{$value.Fmode}}</td>
             <td>{{$value.Funame}}:{{$value.Fgname}}</td>
             <td>{{$value.Fsize}}</td>
             <td>{{$value.Ftime}}</td>
             <td>
-              <a href="" style="" onclick="rename('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-move" data-toggle="tooltip" data-placement="top" title="" data-original-title="rename"></span></a>
-              <a href="" style="color:red;" onclick="fileRemove('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-floppy-remove" data-toggle="tooltip" data-placement="top" title="" data-original-title="remove"></span></a>
+              <a href="" style="" onclick="rename('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-move" data-trigger="tooltip" data-position="n" data-content="rename"></span></a>
+              <a href="" style="color:red;" onclick="fileRemove('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-floppy-remove" data-trigger="tooltip" data-position="ne" data-content="remove"></span></a>
               </td>
           </tr>
           {{end}}
@@ -82,9 +81,10 @@ function mkdir() {
             data: {action:"mkdir", dirname: "{{$.RequestURI}}" + dirname},
             success: function(json){
               if(json[0] == '0') {
+                  $.scojs_message(json[1], $.scojs_message.TYPE_OK);
                   window.location.href = location.href
               } else {
-                  alert(json[1]);
+                  $.scojs_message(json[1], $.scojs_message.TYPE_ERROR);
               }
             }
         });
@@ -105,9 +105,10 @@ function createFile() {
             data: {action:"create", filename: "{{$.RequestURI}}" + filename},
             success: function(json){
               if(json[0] == '0') {
+                  $.scojs_message(json[1], $.scojs_message.TYPE_OK);
                   window.location.href = location.href
               } else {
-                  alert(json[1]);
+                  $.scojs_message(json[1], $.scojs_message.TYPE_ERROR);
               }
             }
         });
@@ -128,9 +129,10 @@ function rename(filename) {
             data: {action:"rename", oldname: "{{$.RequestURI}}" + filename,  newname: "{{$.RequestURI}}" + newname},
             success: function(json){
               if(json[0] == '0') {
+                  $.scojs_message(json[1], $.scojs_message.TYPE_OK);
                   window.location.href = location.href
               } else {
-                  alert(json[1]);
+                  $.scojs_message(json[1], $.scojs_message.TYPE_ERROR);
               }
             }
         });
@@ -148,9 +150,10 @@ function fileRemove(filename) {
             data: {action:"remove", filename: "{{$.RequestURI}}" + filename},
             success: function(json){
               if(json[0] == '0') {
+                  $.scojs_message(json[1], $.scojs_message.TYPE_OK);
                   window.location.href = location.href
               } else {
-                  alert(json[1]);
+                  $.scojs_message(json[1], $.scojs_message.TYPE_ERROR);
               }
             }
         });
@@ -167,9 +170,10 @@ function dirRemove(filename) {
             data: {action:"remove", filename: "{{$.RequestURI}}" + filename},
             success: function(json){
               if(json[0] == '0') {
+                  $.scojs_message(json[1], $.scojs_message.TYPE_OK);
                   window.location.href = location.href
               } else {
-                  alert(json[1]);
+                  $.scojs_message(json[1], $.scojs_message.TYPE_ERROR);
               }
             }
         });
@@ -202,9 +206,7 @@ $(function() {
         str += "/" + strs[i];
         $(".breadcrumb").append("<li><a href=\"" + str + "/\">" + strs[i] + "</a></li>");
     }
-    $(".glyphicon").tooltip();
 });
 
 </script>
-
 {{template "index/footer.html"}}
