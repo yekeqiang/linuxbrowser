@@ -183,7 +183,7 @@ function back() {
     if(url.substr(url.length - 1, url.length) == "/") {
       url = url.substr(0, url.length - 1);
     }
-    strs = url.split("/");
+    var strs = url.split("/");
     if(strs.length > 3) {
       strs[strs.length - 1] = "";
       url = strs.join("/");
@@ -191,6 +191,20 @@ function back() {
     }
     return;
 }
+
+$(function(){
+    $(".breadcrumb").append("<li><a href=\"/\">/</a></li>");
+    var url = window.location.href;
+    if(url.substr(url.length - 1, url.length) == "/") {
+      url = url.substr(0, url.length - 1);
+    }
+    var strs = url.split("/");
+    var str = "";
+    for(var i = 3; i < strs.length; i++) {
+        str += "/" + strs[i];
+        $(".breadcrumb").append("<li><a href=\"" + str + "/\">" + strs[i] + "</a></li>");
+    }
+});
 
 </script>
 {{template "index/footer.html"}}
