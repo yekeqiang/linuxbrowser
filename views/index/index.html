@@ -35,8 +35,8 @@
             <td>{{$value.Ftime}}</td>
             <td>
               
-              <a href="" style="color:red;" onclick="rename('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-tag" data-toggle="tooltip" data-placement="top" title="" data-original-title="rename"></span></a>
-              <a href="" style="color:red;" onclick="dirRemove('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="remove"></span></a>
+              <a href="" style="" onclick="rename('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-move" data-toggle="tooltip" data-placement="top" title="" data-original-title="rename"></span></a>
+              <a href="" style="color:red;" onclick="dirRemove('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-floppy-remove" data-toggle="tooltip" data-placement="top" title="" data-original-title="remove"></span></a>
 
             </td>
           </tr>
@@ -62,8 +62,8 @@
             <td>{{$value.Ftime}}</td>
             <td>
               <a href="/operation?action=read&file={{$.RequestURI}}{{$value.Fname}}" ><span class="glyphicon glyphicon-list-alt" data-toggle="tooltip" data-placement="top" title="" data-original-title="read"></span></a>
-              <a href="" style="color:red;" onclick="rename('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-tag" data-toggle="tooltip" data-placement="top" title="" data-original-title="rename"></span></a>
-              <a href="" style="color:red;" onclick="fileRemove('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="remove"></span></a>
+              <a href="" style="" onclick="rename('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-move" data-toggle="tooltip" data-placement="top" title="" data-original-title="rename"></span></a>
+              <a href="" style="color:red;" onclick="fileRemove('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-floppy-remove" data-toggle="tooltip" data-placement="top" title="" data-original-title="remove"></span></a>
               </td>
           </tr>
           {{end}}
