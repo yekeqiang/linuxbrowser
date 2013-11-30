@@ -42,7 +42,6 @@ func (this *IndexController) Get() {
 	}
 
 	this.Data["RequestURI"] = RequestURI
-	this.Data["parentPath"] = lastDir(RequestURI)
 	this.Data["dirs"] = dirs
 	this.Data["files"] = files
 	this.TplNames = "index/index.html"
