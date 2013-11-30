@@ -17,7 +17,7 @@
 
     <!-- Custom styles for this template -->
     <link href="/static/css/non-responsive.css" rel="stylesheet">
-    <link href="/static/css/signin.css" rel="stylesheet">
+    <link href="/static/scojs/css/scojs.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -28,6 +28,12 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
     <script src="//codeorigin.jquery.com/jquery-2.0.3.min.js"></script>
+    <script src="/static/scojs/js/sco.collapse.js"></script>
+    <script src="/static/scojs/js/sco.ajax.js"></script>
+    <script src="/static/scojs/js/sco.modal.js"></script>
+    <script src="/static/scojs/js/sco.message.js"></script>
+    <script src="/static/scojs/js/sco.confirm.js"></script>
+    <script src="/static/scojs/js/sco.tooltip.js"></script>
     <script src="/static/dist/js/bootstrap.min.js"></script>
   </head>
 
@@ -59,8 +65,8 @@
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#" class="btn-lg" onclick="return false;"><span class="glyphicon glyphicon-log-in" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="signin"></span></a></li>
-            <li><a href="#" class="btn-lg" onclick="return false;"><span class="glyphicon glyphicon-registration-mark" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="signup"></span></a></li>
+            <li><a href="#" class="btn-lg" onclick="return false;"><span class="glyphicon glyphicon-log-in" data-trigger="tooltip" ddata-position="s" title="" data-content="sign in"></span></a></li>
+            <li><a href="#" class="btn-lg" onclick="return false;"><span class="glyphicon glyphicon-registration-mark" data-trigger="tooltip" data-position="s" title="" data-content="sign up"></span></a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
