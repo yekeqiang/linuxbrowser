@@ -192,8 +192,7 @@ function back() {
     return;
 }
 
-$(function(){
-    $(".breadcrumb").append("<li><a href=\"/\">/</a></li>");
+$(function() {
     var url = window.location.href;
     if(url.substr(url.length - 1, url.length) == "/") {
       url = url.substr(0, url.length - 1);
