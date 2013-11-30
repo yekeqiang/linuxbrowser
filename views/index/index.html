@@ -1,7 +1,7 @@
 {{template "index/header.html" .}}
-{{$requestURL := .RequestURI}}
-	<div class="container">
+{{$.RequestURI := .RequestURI}}
 
+	<div class="container">
       <table class="table table-hover">
         <thead>
           <tr>
@@ -15,27 +15,29 @@
         </thead>
         <tbody>
           <tr class="">
-            <td style="color:#5555ff;"><a href="{{.parentPath}}">..</a></td>
+            <td style="color:#5555ff;"><a href="{{.parentPath}}"><span class="glyphicon glyphicon-arrow-left"></span></a></td>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
             <td>
-              <a href="" onclick="mkdir();return false;">mkdir</a>
-              <a href="" onclick="createFile();return false;">createFile</a>
+              <a href="" onclick="mkdir();return false;"><span class="glyphicon glyphicon-folder-open"></span></a>
+              <a href="" onclick="createFile();return false;"><span class="glyphicon glyphicon-file"></span></a>
             </td>
           </tr>
          
           {{range $key, $value := .dirs}}
           <tr class="">
-            <td style="color:#5555ff;"><a href="{{$requestURL}}{{$value.Fname}}">{{$value.Fname}}</a></td>
+            <td style="color:#5555ff;"><a href="{{$.RequestURI}}{{$value.Fname}}">{{$value.Fname}}</a></td>
             
             <td>{{$value.Fmode}}</td>
             <td>{{$value.Funame}}:{{$value.Fgname}}</td>
             <td>{{$value.Fsize}}</td>
             <td>{{$value.Ftime}}</td>
             <td>
-              <a href="" onclick="dirRemove('{{$value.Fname}}');return false;">delete</a>
+              
+              <a href="" style="color:red;" onclick="dirRemove('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-trash"></span></a>
+
             </td>
           </tr>
           {{end}}
@@ -59,9 +61,8 @@
             <td>{{$value.Fsize}}</td>
             <td>{{$value.Ftime}}</td>
             <td>
-              <a href="/operation?action=read&file={{$requestURL}}{{$value.Fname}}" >read</a>
-              <a href="" onclick="rename('{{$value.Fname}}');return false;">rename</a>
-              <a href="" onclick="fileRemove('{{$value.Fname}}');return false;">delete</a>
+              <a href="/operation?action=read&file={{$.RequestURI}}{{$value.Fname}}" ><span class="glyphicon glyphicon-list-alt"></span></a>
+              <a href="" style="color:red;" onclick="dirRemove('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-trash"></span></a>
               </td>
           </tr>
           {{end}}
@@ -78,7 +79,7 @@ function mkdir() {
             url: "/operation",
             type: "get",
             dataType: "json",
-            data: {action:"mkdir", dirname: "{{$requestURL}}" + dirname},
+            data: {action:"mkdir", dirname: "{{$.RequestURI}}" + dirname},
             success: function(json){
               if(json[0] == '0') {
                   window.location.href = location.href
@@ -101,7 +102,7 @@ function createFile() {
             url: "/operation",
             type: "get",
             dataType: "json",
-            data: {action:"create", filename: "{{$requestURL}}" + filename},
+            data: {action:"create", filename: "{{$.RequestURI}}" + filename},
             success: function(json){
               if(json[0] == '0') {
                   window.location.href = location.href
@@ -124,7 +125,7 @@ function rename(filename) {
             url: "/operation",
             type: "get",
             dataType: "json",
-            data: {action:"rename", oldname: "{{$requestURL}}" + filename,  newname: "{{$requestURL}}" + newname},
+            data: {action:"rename", oldname: "{{$.RequestURI}}" + filename,  newname: "{{$.RequestURI}}" + newname},
             success: function(json){
               if(json[0] == '0') {
                   window.location.href = location.href
@@ -144,7 +145,7 @@ function fileRemove(filename) {
             url: "/operation",
             type: "get",
             dataType: "json",
-            data: {action:"remove", filename: "{{$requestURL}}" + filename},
+            data: {action:"remove", filename: "{{$.RequestURI}}" + filename},
             success: function(json){
               if(json[0] == '0') {
                   window.location.href = location.href
@@ -163,7 +164,7 @@ function dirRemove(filename) {
             url: "/operation",
             type: "get",
             dataType: "json",
-            data: {action:"remove", filename: "{{$requestURL}}" + filename},
+            data: {action:"remove", filename: "{{$.RequestURI}}" + filename},
             success: function(json){
               if(json[0] == '0') {
                   window.location.href = location.href
