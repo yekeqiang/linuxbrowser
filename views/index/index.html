@@ -1,6 +1,6 @@
 {{template "index/header.html" .}}
 
-	<div class="container">
+  <div class="container">
       <table class="table table-hover table-condensed">
         <thead>
           <tr>
@@ -20,8 +20,8 @@
             <td></td>
             <td></td>
             <td>
-              <a href="" onclick="mkdir();return false;"><span class="glyphicon glyphicon-folder-open" data-trigger="tooltip" data-content="mkdir" data-position="n"></span></a>
-              <a href="" onclick="createFile();return false;"><span class="glyphicon glyphicon-file" data-trigger="tooltip" data-content="newfile" data-position="ne"></span></a>
+              <a href="" onclick="mkdir('{{$.RequestURI}}');return false;"><span class="glyphicon glyphicon-folder-open" data-trigger="tooltip" data-content="mkdir" data-position="n"></span></a>
+              <a href="" onclick="createFile('{{$.RequestURI}}');return false;"><span class="glyphicon glyphicon-file" data-trigger="tooltip" data-content="newfile" data-position="ne"></span></a>
             </td>
           </tr>
          
@@ -34,8 +34,8 @@
             <td>{{$value.Fsize}}</td>
             <td>{{$value.Ftime}}</td>
             <td>
-              <a href="" style="" onclick="rename('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-move" data-trigger="tooltip" data-position="n" data-content="rename"></span></a>
-              <a href="" style="color:red;" onclick="dirRemove('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-floppy-remove" data-trigger="tooltip" data-position="ne" data-content="remove"></span></a>
+              <a href="" style="" onclick="rename('{{$.RequestURI}}', '{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-move" data-trigger="tooltip" data-position="n" data-content="rename"></span></a>
+              <a href="" style="color:red;" onclick="dirRemove('{{$.RequestURI}}{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-floppy-remove" data-trigger="tooltip" data-position="ne" data-content="remove"></span></a>
 
             </td>
           </tr>
@@ -60,158 +60,13 @@
             <td>{{$value.Fsize}}</td>
             <td>{{$value.Ftime}}</td>
             <td>
-              <a href="" style="" onclick="rename('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-move" data-trigger="tooltip" data-position="n" data-content="rename"></span></a>
-              <a href="" style="color:red;" onclick="fileRemove('{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-floppy-remove" data-trigger="tooltip" data-position="ne" data-content="remove"></span></a>
+              <a href="" style="" onclick="rename('{{$.RequestURI}}', '{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-move" data-trigger="tooltip" data-position="n" data-content="rename"></span></a>
+              <a href="" style="color:red;" onclick="fileRemove('{{$.RequestURI}}{{$value.Fname}}');return false;"><span class="glyphicon glyphicon-floppy-remove" data-trigger="tooltip" data-position="ne" data-content="remove"></span></a>
               </td>
           </tr>
           {{end}}
         </tbody>
       </table>
   </div>
-<script>
 
-function mkdir() {
-
-    var dirname = prompt("Enter dirname ", "");//将输入的内容赋给变量 name ，
-
-    if(dirname) {
-        $.ajax({
-            url: "/operation",
-            type: "get",
-            dataType: "json",
-            data: {action:"mkdir", dirname: "{{$.RequestURI}}" + dirname},
-            success: function(json){
-              if(json[0] == '0') {
-                  $.cookie("SESSIONMESSAGE", "create directory success");
-                  window.location.href = location.href
-              } else {
-                  $.scojs_message(json[1], $.scojs_message.TYPE_ERROR);
-              }
-            }
-        });
-     }
-
-    return ;
-}
-
-function createFile() {
-
-    var filename = prompt("Enter filename ", "");//将输入的内容赋给变量 name ，
-
-    if(filename) {
-        $.ajax({
-            url: "/operation",
-            type: "get",
-            dataType: "json",
-            data: {action:"create", filename: "{{$.RequestURI}}" + filename},
-            success: function(json){
-              if(json[0] == '0') {
-                   $.cookie("SESSIONMESSAGE", "create file success");
-                  window.location.href = location.href
-              } else {
-                  $.scojs_message(json[1], $.scojs_message.TYPE_ERROR);
-              }
-            }
-        });
-     }
-
-    return ;
-}
-
-function rename(filename) {
-
-    var newname = prompt("Enter newname ", "");//将输入的内容赋给变量 name ，
-
-    if(newname) {
-        $.ajax({
-            url: "/operation",
-            type: "get",
-            dataType: "json",
-            data: {action:"rename", oldname: "{{$.RequestURI}}" + filename,  newname: "{{$.RequestURI}}" + newname},
-            success: function(json){
-              if(json[0] == '0') {
-                  $.cookie("SESSIONMESSAGE", "rename success");
-                  window.location.href = location.href
-              } else {
-                  $.scojs_message(json[1], $.scojs_message.TYPE_ERROR);
-              }
-            }
-        });
-     }
-
-    return ;
-}
-
-function fileRemove(filename) {
-    if (confirm("Are you sure delete '" + filename + "' ? ")) {  
-        $.ajax({
-            url: "/operation",
-            type: "get",
-            dataType: "json",
-            data: {action:"remove", filename: "{{$.RequestURI}}" + filename},
-            success: function(json){
-              if(json[0] == '0') {
-                   $.cookie("SESSIONMESSAGE", "remove file success");
-                  window.location.href = location.href
-              } else {
-                  $.scojs_message(json[1], $.scojs_message.TYPE_ERROR);
-              }
-            }
-        });
-    }
-    return ;
-}
-
-function dirRemove(filename) {
-    if (confirm("Are you sure delete '" + filename + "' ? Warning ! This is a directory ")) {  
-        $.ajax({
-            url: "/operation",
-            type: "get",
-            dataType: "json",
-            data: {action:"remove", filename: "{{$.RequestURI}}" + filename},
-            success: function(json){
-              if(json[0] == '0') {
-                  $.cookie("SESSIONMESSAGE", "remove directory success");
-                  window.location.href = location.href
-              } else {
-                  $.scojs_message(json[1], $.scojs_message.TYPE_ERROR);
-              }
-            }
-        });
-    }
-    return ;
-}
-
-function back() {
-    var url = window.location.href;
-    if(url.substr(url.length - 1, url.length) == "/") {
-      url = url.substr(0, url.length - 1);
-    }
-    var strs = url.split("/");
-    if(strs.length > 3) {
-      strs[strs.length - 1] = "";
-      url = strs.join("/");
-      window.location.href = url;  
-    }
-    return;
-}
-
-$(function() {
-    var url = window.location.href;
-    if(url.substr(url.length - 1, url.length) == "/") {
-      url = url.substr(0, url.length - 1);
-    }
-    var strs = url.split("/");
-    var str = "";
-    for(var i = 3; i < strs.length; i++) {
-        str += "/" + strs[i];
-        $(".breadcrumb").append("<li><a href=\"" + str + "/\">" + strs[i] + "</a></li>");
-    }
-    if($.cookie("SESSIONMESSAGE")) {
-      $.scojs_message($.cookie("SESSIONMESSAGE"), $.scojs_message.TYPE_OK);
-      $.cookie("SESSIONMESSAGE", "", { expires: -1 });
-    }
-});
-
-</script>
 {{template "index/footer.html"}}
