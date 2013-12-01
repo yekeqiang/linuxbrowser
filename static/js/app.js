@@ -33,7 +33,7 @@ function createFile(directory) {
             url: "/operation",
             type: "get",
             dataType: "json",
-            data: {action:"create", directory: + filename},
+            data: {action:"create", filename : directory + filename},
             success: function(json){
               if(json[0] == '0') {
                    $.cookie(SESSIONMESSAGE, "create file success");
