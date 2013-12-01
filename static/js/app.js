@@ -1,6 +1,6 @@
 var SESSIONMESSAGE = "SESSIONMESSAGE";
 
-function mkdir() {
+function mkdir(directory) {
 
     var dirname = prompt("Enter dirname ", "");//将输入的内容赋给变量 name ，
 
@@ -9,7 +9,7 @@ function mkdir() {
             url: "/operation",
             type: "get",
             dataType: "json",
-            data: {action:"mkdir", dirname: "{{$.RequestURI}}" + dirname},
+            data: {action:"mkdir", dirname: directory + dirname},
             success: function(json){
               if(json[0] == '0') {
                   $.cookie(SESSIONMESSAGE, "create directory success");
@@ -24,7 +24,7 @@ function mkdir() {
     return ;
 }
 
-function createFile() {
+function createFile(directory) {
 
     var filename = prompt("Enter filename ", "");//将输入的内容赋给变量 name ，
 
@@ -33,7 +33,7 @@ function createFile() {
             url: "/operation",
             type: "get",
             dataType: "json",
-            data: {action:"create", filename: "{{$.RequestURI}}" + filename},
+            data: {action:"create", directory: + filename},
             success: function(json){
               if(json[0] == '0') {
                    $.cookie(SESSIONMESSAGE, "create file success");
@@ -48,7 +48,7 @@ function createFile() {
     return ;
 }
 
-function rename(filename) {
+function rename(directory, filename) {
 
     var newname = prompt("Enter newname ", "");//将输入的内容赋给变量 name ，
 
@@ -57,7 +57,7 @@ function rename(filename) {
             url: "/operation",
             type: "get",
             dataType: "json",
-            data: {action:"rename", oldname: "{{$.RequestURI}}" + filename,  newname: "{{$.RequestURI}}" + newname},
+            data: {action:"rename", oldname: directory + filename,  newname: directory + newname},
             success: function(json){
               if(json[0] == '0') {
                   $.cookie(SESSIONMESSAGE, "rename success");
@@ -78,7 +78,7 @@ function fileRemove(filename) {
             url: "/operation",
             type: "get",
             dataType: "json",
-            data: {action:"remove", filename: "{{$.RequestURI}}" + filename},
+            data: {action:"remove", filename: filename},
             success: function(json){
               if(json[0] == '0') {
                    $.cookie(SESSIONMESSAGE, "remove file success");
@@ -98,7 +98,7 @@ function dirRemove(filename) {
             url: "/operation",
             type: "get",
             dataType: "json",
-            data: {action:"remove", filename: "{{$.RequestURI}}" + filename},
+            data: {action:"remove", filename: filename},
             success: function(json){
               if(json[0] == '0') {
                   $.cookie(SESSIONMESSAGE, "remove directory success");
