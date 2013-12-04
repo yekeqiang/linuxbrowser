@@ -72,43 +72,36 @@ function rename(directory, filename) {
     return ;
 }
 
-function fileRemove(filename) {
-    if (confirm("Are you sure delete '" + filename + "' ? ")) {  
-        $.ajax({
-            url: "/operation",
-            type: "get",
-            dataType: "json",
-            data: {action:"remove", filename: filename},
-            success: function(json){
-              if(json[0] == '0') {
-                   $.cookie(SESSIONMESSAGE, "remove file success");
-                  window.location.href = location.href
-              } else {
-                  $.scojs_message(json[1], $.scojs_message.TYPE_ERROR);
-              }
-            }
-        });
-    }
-    return ;
+function app_ajax(action, filename, message) {
+	$.ajax({
+		url: "/operation",
+		type: "get",
+		dataType: "json",
+		data: {action: action, filename: filename},
+		success: function(json){
+		  if(json[0] == '0') {
+			  $.cookie(SESSIONMESSAGE, message);
+			  window.location.href = location.href
+		  } else {
+			  $.scojs_message(json[1], $.scojs_message.TYPE_ERROR);
+		  }
+		}
+	});
 }
 
 function dirRemove(filename) {
-    if (confirm("Are you sure delete '" + filename + "' ? Warning ! This is a directory ")) {  
-        $.ajax({
-            url: "/operation",
-            type: "get",
-            dataType: "json",
-            data: {action:"remove", filename: filename},
-            success: function(json){
-              if(json[0] == '0') {
-                  $.cookie(SESSIONMESSAGE, "remove directory success");
-                  window.location.href = location.href
-              } else {
-                  $.scojs_message(json[1], $.scojs_message.TYPE_ERROR);
-              }
-            }
-        });
-    }
+    var message = "Are you sure delete '" + filename + "' ? Warning ! This is a directory ";
+    $(".modal-body").html(message);
+    $("#confirmYes").attr("onclick","app_ajax('remove', '" + filename + "', 'remove directory success');");
+    $("#confirm").modal();
+    return ;
+}
+
+function fileRemove(filename) {
+    var message = "Are you sure delete '" + filename + "' ? ";
+    $(".modal-body").html(message);
+    $("#confirmYes").attr("onclick","app_ajax('remove', '" + filename + "', 'remove directory success');");
+    $("#confirm").modal();
     return ;
 }
 
