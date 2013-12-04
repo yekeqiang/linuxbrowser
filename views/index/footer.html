@@ -4,15 +4,6 @@
       height: 100%;
       /* The html and body elements cannot have any padding or margin. */
     }
-    /* Wrapper for page content to push down footer */
-    #wrap {
-      min-height: 100%;
-      height: auto;
-      /* Negative indent footer by its height */
-      margin: 0 auto -60px;
-      /* Pad bottom by footer height */
-      padding: 0 0 60px;
-    }
     /* Set the fixed height of the footer here */
     #footer {
       height: 60px;
@@ -38,5 +29,19 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+    <!-- Modal -->
+    <div class="modal fade" id="confirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">cancel</button>
+            <button type="button" class="btn btn-sm btn-danger">yes</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
   </body>
 </html>
