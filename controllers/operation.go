@@ -77,7 +77,7 @@ func (this *OperationController) read() {
 			buf := make([]byte, info.Size())
 			f.Read(buf)
 			this.Data["value"] = string(buf)
-			this.TplNames = "operation/edit.html"
+			this.TplNames = "operation/read.html"
 
 		}
 		return
