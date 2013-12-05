@@ -1,83 +1,47 @@
 var SESSIONMESSAGE = "SESSIONMESSAGE";
 
-function mkdir(directory) {
+function mkdir(directory, param2) {
 
-    var dirname = prompt("Enter dirname ", "");//将输入的内容赋给变量 name ，
-
-    if(dirname) {
-        $.ajax({
-            url: "/operation",
-            type: "get",
-            dataType: "json",
-            data: {action:"mkdir", dirname: directory + dirname},
-            success: function(json){
-              if(json[0] == '0') {
-                  $.cookie(SESSIONMESSAGE, "create directory success");
-                  window.location.href = location.href
-              } else {
-                  $.scojs_message(json[1], $.scojs_message.TYPE_ERROR);
-              }
-            }
-        });
-     }
-
-    return ;
+    if(param2 === undefined) {
+        var input = "<input id=\"prompt\" type=\"text\" class=\"form-control\" placeholder=\"Enter dirname\" />";
+        $(".modal-body").html(input);
+        $("#confirmYes").attr("onclick","mkdir('" + directory + "', true);");
+        $("#confirm").modal();
+        return ;
+    }
+    app_ajax({action:'mkdir' , dirname : directory + $("#prompt").val()}, "create dir success ");
 }
 
-function createFile(directory) {
+function createFile(directory, param2) {
 
-    var filename = prompt("Enter filename ", "");//将输入的内容赋给变量 name ，
-
-    if(filename) {
-        $.ajax({
-            url: "/operation",
-            type: "get",
-            dataType: "json",
-            data: {action:"create", filename : directory + filename},
-            success: function(json){
-              if(json[0] == '0') {
-                   $.cookie(SESSIONMESSAGE, "create file success");
-                  window.location.href = location.href
-              } else {
-                  $.scojs_message(json[1], $.scojs_message.TYPE_ERROR);
-              }
-            }
-        });
-     }
-
-    return ;
+    if(param2 === undefined) {
+        var input = "<input id=\"prompt\" type=\"text\" class=\"form-control\" placeholder=\"Enter filename\" />";
+        $(".modal-body").html(input);
+        $("#confirmYes").attr("onclick","createFile('" + directory  + "', true);");
+        $("#confirm").modal();
+        return ;
+    }
+    app_ajax({action:'create' , filename : directory + $("#prompt").val()}, "create file success ");
 }
 
-function rename(directory, filename) {
+function rename(directory, filename, param3) {
 
-    var newname = prompt("Enter newname ", "");//将输入的内容赋给变量 name ，
-
-    if(newname) {
-        $.ajax({
-            url: "/operation",
-            type: "get",
-            dataType: "json",
-            data: {action:"rename", oldname: directory + filename,  newname: directory + newname},
-            success: function(json){
-              if(json[0] == '0') {
-                  $.cookie(SESSIONMESSAGE, "rename success");
-                  window.location.href = location.href
-              } else {
-                  $.scojs_message(json[1], $.scojs_message.TYPE_ERROR);
-              }
-            }
-        });
-     }
-
-    return ;
+    if(param3 === undefined) {
+        var input = "<input id=\"prompt\" type=\"text\" class=\"form-control\" placeholder=\"Enter filename\" />";
+        $(".modal-body").html(input);
+        $("#confirmYes").attr("onclick","rename('" + directory  + "','" + filename + "', true);");
+        $("#confirm").modal();
+        return ;
+    }
+    app_ajax({action: 'rename' , oldname: directory + filename, newname: directory + $("#prompt").val()}, "rename success ");
 }
 
-function app_ajax(action, filename, message) {
+function app_ajax(data, message) {
 	$.ajax({
 		url: "/operation",
 		type: "get",
 		dataType: "json",
-		data: {action: action, filename: filename},
+		data: data,
 		success: function(json){
 		  if(json[0] == '0') {
 			  $.cookie(SESSIONMESSAGE, message);
@@ -92,7 +56,7 @@ function app_ajax(action, filename, message) {
 function dirRemove(filename) {
     var message = "Are you sure delete '" + filename + "' ? Warning ! This is a directory ";
     $(".modal-body").html(message);
-    $("#confirmYes").attr("onclick","app_ajax('remove', '" + filename + "', 'remove directory success');");
+    $("#confirmYes").attr("onclick","app_ajax({action:'remove',filename:'" + filename + "'}, 'remove directory success');");
     $("#confirm").modal();
     return ;
 }
@@ -100,7 +64,7 @@ function dirRemove(filename) {
 function fileRemove(filename) {
     var message = "Are you sure delete '" + filename + "' ? ";
     $(".modal-body").html(message);
-    $("#confirmYes").attr("onclick","app_ajax('remove', '" + filename + "', 'remove directory success');");
+    $("#confirmYes").attr("onclick","app_ajax({action:'remove', filename:'" + filename + "'}, 'remove directory success');");
     $("#confirm").modal();
     return ;
 }
@@ -135,3 +99,4 @@ $(function() {
       $.cookie(SESSIONMESSAGE, "", { expires: -1 });
     }
 });
+
