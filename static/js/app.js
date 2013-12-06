@@ -1,5 +1,24 @@
 var SESSIONMESSAGE = "SESSIONMESSAGE";
 
+function readFile(file) {
+
+	$.ajax({
+		url: "/operation",
+		type: "get",
+		dataType: "json",
+		data: {action : 'read' , file : file},
+		success: function(json){
+			if(json[0] == '0') {
+				$("#readTitle").html(file);
+				$("#readModal .modal-body").html("<pre>"+json[1]+"</pre>");
+				$("#readModal").modal();
+			} else {
+				$.scojs_message(json[1], $.scojs_message.TYPE_ERROR);
+			}
+		}
+	});
+}
+
 function mkdir(directory, param2) {
 
     if(param2 === undefined) {
@@ -99,4 +118,3 @@ $(function() {
       $.cookie(SESSIONMESSAGE, "", { expires: -1 });
     }
 });
-

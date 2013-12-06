@@ -60,25 +60,20 @@ func (this *OperationController) Get() {
 func (this *OperationController) read() {
 
 	file := this.GetString("file")
-
 	if file != "" {
 
 		f, err := os.OpenFile(file, os.O_RDWR, 0444)
-
 		if err != nil {
 			if os.IsPermission(err) {
-				middleware.Exception("403", this.Ctx.ResponseWriter, this.Ctx.Request, err.Error())
+				this.jsonEncode(70, err.Error())
 			} else {
-				middleware.Exception("404", this.Ctx.ResponseWriter, this.Ctx.Request, "")
+				this.jsonEncode(73, "404 not found")
 			}
 		} else {
-
 			info, _ := f.Stat()
 			buf := make([]byte, info.Size())
 			f.Read(buf)
-			this.Data["value"] = string(buf)
-			this.TplNames = "operation/read.html"
-
+			this.jsonEncode(0, string(buf))
 		}
 		return
 

@@ -20,7 +20,7 @@
             <td></td>
             <td></td>
             <td>
-              <a href="" onclick="mkdir('{{$.RequestURI}}');return false;"><span class="glyphicon glyphicon-folder-open" data-trigger="tooltip" data-content="mkdir" data-position="n"></span></a>
+              <a href="" onclick="mkdir('{{$.RequestURI}}');" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-folder-open" data-trigger="tooltip" data-content="mkdir" data-position="n"></span></a>
               <a href="" onclick="createFile('{{$.RequestURI}}');return false;"><span class="glyphicon glyphicon-file" data-trigger="tooltip" data-content="newfile" data-position="ne"></span></a>
             </td>
           </tr>
@@ -54,7 +54,7 @@
         <tbody>
           {{range $key, $value := .files}}
           <tr class="">
-            <td style=""><a href="/operation?action=read&file={{$.RequestURI}}{{$value.Fname}}" ><span class="glyphicon glyphicon-file" data-trigger="tooltip" data-position="nw" data-content="read"></span></a> {{$value.Fname}}</td>
+            <td style=""><a href="" onclick="readFile('{{$.RequestURI}}{{$value.Fname}}')return;" ><span class="glyphicon glyphicon-file" data-trigger="tooltip" data-position="nw" data-content="read"></span></a> {{$value.Fname}}</td>
             <td>{{$value.Fmode}}</td>
             <td>{{$value.Funame}}:{{$value.Fgname}}</td>
             <td>{{$value.Fsize}}</td>
