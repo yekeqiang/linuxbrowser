@@ -54,7 +54,7 @@
         <tbody>
           {{range $key, $value := .files}}
           <tr class="">
-            <td style=""><a href="" onclick="readFile('{{$.RequestURI}}{{$value.Fname}}')return;" ><span class="glyphicon glyphicon-file" data-trigger="tooltip" data-position="nw" data-content="read"></span></a> {{$value.Fname}}</td>
+            <td style=""><a href="" onclick="readFile('{{$.RequestURI}}{{$value.Fname}}');return false;" ><span class="glyphicon glyphicon-file" data-trigger="tooltip" data-position="nw" data-content="read"></span></a> {{$value.Fname}}</td>
             <td>{{$value.Fmode}}</td>
             <td>{{$value.Funame}}:{{$value.Fgname}}</td>
             <td>{{$value.Fsize}}</td>
